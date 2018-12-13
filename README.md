@@ -22,7 +22,7 @@ source activate computer-vision
 
 * **Windows**
 ```sh
-conda create -n cv-nd python=3.6
+conda create -n computer-vision python=3.6
 activate computer-vision
 ```
 
