@@ -1,6 +1,10 @@
 import os
 import sys
-sys.path.append('/opt/cocoapi/PythonAPI')
+from pathlib import Path
+
+COCOAPI = Path(__file__).parent() / 'cocoapi' / 'PythonAPI'
+
+sys.path.append(COCOAPI)
 from pycocotools.coco import COCO
 import numpy as np
 import skimage.io as io
@@ -18,7 +22,6 @@ coco_caps = COCO(captions_annFile)
 
 # get image ids
 ids = list(coco.anns.keys())
-
 
 
 # pick a random image and obtain the corresponding URL
