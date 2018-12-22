@@ -33,6 +33,9 @@ class DecoderRNN(nn.Module):
 
         self.lstm = nn.LSTM(input_size=embed_size, hidden_size=hidden_size, num_layers=num_layers)
 
+        # embedding layer that turns words into a vector of a specified size
+        self.embed = nn.Embedding(self.vocab_size, self.embed_size)
+
         # Add dropout layer with dropout probabililty of 0.5
         self.dropout = nn.Dropout(0.5)
 
@@ -42,12 +45,23 @@ class DecoderRNN(nn.Module):
         self.hidden = self.init_hidden()
 
     def forward(self, features, captions):
-        x, self.hidden = self.lstm(features, self.hidden)
+        # Convert captions to embedded word vector
+        embeds = self.embed(captions)
+
+        # Removes last caption from list
+        # This is needed to maintain the same output size as the input
+        n_captions = list(embeds.size())[1]
+        embeds = embeds.narrow(1, 0, n_captions - 1)
+
+        #Concat image feature with captions
+        x = torch.cat((features.unsqueeze(1), embeds), 1)
+
+        x, self.hidden = self.lstm(x)
 
         x = self.dropout(x)
 
         # Stack up LSTM outputs using view
-        x = x.view(x.size()[0] * x.size()[1], self.n_hidden)
+        #         x = x.view(x.size()[0]*x.size()[1], self.hidden_size)
 
         x = self.fc(x)
 

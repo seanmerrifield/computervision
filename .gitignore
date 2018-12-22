@@ -1,7 +1,11 @@
 .idea
 .ipynb_checkpoints
+.vscode
+
 venv
 data
 __pycache__
 
 keypoint_detection/train
+
+image_caption/data

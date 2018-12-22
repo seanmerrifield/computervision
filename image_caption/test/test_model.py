@@ -7,8 +7,6 @@ import numpy as np
 class TestRCNN(unittest.TestCase):
     embed_size = 256
 
-    encoder = EncoderCNN(embed_size=256)
-
     decoder = DecoderRNN(embed_size=256,
                          hidden_size=256,
                          vocab_size=100,
@@ -21,13 +19,13 @@ class TestRCNN(unittest.TestCase):
 
     def test_forward(self):
 
-        img = cv2.imread('image.png')
+        features = torch.from_numpy(np.ones(256))
+        features = features.unsqueeze(0)
 
-        features = torch.from_numpy(img)
 
         caption = np.array([1, 2, 3, 4, 5, 6, 7, 8])
         captions = torch.from_numpy(caption)
-
+        captions = captions.unsqueeze(0)
 
         self.decoder(features, captions)
 

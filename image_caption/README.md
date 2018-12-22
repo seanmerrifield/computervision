@@ -1,43 +1,34 @@
 # Image Captioning
-This project uses a combined CNN and RNN network to create an image captioning system. This project will use the COCO Dataset and API to train the model with. 
+This project uses a combined CNN and RNN network to create an image captioning system. This project will use the COCO Dataset and API to train the model with. The COCO API has been provided in the root directory of this repository as `pycocotools`.
 
 ## Installation
-In addition to the python packages installation instructions that are found at the root of this project repository, the COCO dataset and API need to be downloaded: 
+In addition to the python packages installation instructions that are found at the root of this project repository, the COCO 2014 dataset needs to be downloaded.
 
-1. Clone COCO API repository
+1. The COCO 2014 image dataset downloads are facilitated using Google Cloud Platform's (GCP) `gsutil`. This is downloaded by using the command below. Follow the instructions for installation. **You may need to restart your terminal for `gsutil` to work.** 
+    ```sh
+    curl https://sdk.cloud.google.com | bash
+    ```
+2. Create data folder where images will be stored in:
+    ```sh
+    cd image_caption
+    mkdir data
+    cd data
+    ```
+
+3. Download the COCO 2014 training and validation images into the `data` directory (warning: this will download roughly 25GB of data)
+    ```sh
+    mkdir train2014
+    mkdir val2014
+    gsutil -m rsync gs://images.cocodataset.org/train2014 train2014
+    gsutil -m rsync gs://images.cocodataset.org/val2014 val2014
+    ```
+
+2. Unzip the downloaded files
 ```sh
-git clone https://github.com/seanmerrifield/computervision
-cd computervision
+curl -O http://images.cocodataset.org/zips/train2014.zip
+curl -O http://images.cocodataset.org/zips/val2014.zip
+curl -O http://images.cocodataset.org/zips/test2014.zip
+curl -O http://images.cocodataset.org/annotations/annotations_trainval2014.zip
 ```
 
-2. Create a new `conda` environment
-* **Linux or Mac**
-```sh
-conda create -n computer-vision python=3.6
-source activate computer-vision
-```
-
-* **Windows**
-```sh
-conda create -n computer-vision python=3.6
-activate computer-vision
-```
-
-3. Install PyTorch and torchvision; this will install the latest version of PyTorch.
-* **Linux or Mac**
-```sh
-conda install pytorch torchvision -c pytorch 
-```
-
-* **Windows**
-```sh
-conda install pytorch-cpu -c pytorch
-pip install torchvision
-```
-
-4. Other dependent packages are installed from the requirements text file (including OpenCV).
-```sh
-pip install -r requirements.txt
-```
-
-5. And that's it!
+3. And that's it!
