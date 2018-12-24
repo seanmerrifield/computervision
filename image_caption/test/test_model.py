@@ -19,13 +19,19 @@ class TestRCNN(unittest.TestCase):
 
     def test_forward(self):
 
-        features = torch.from_numpy(np.ones(256))
+        features = torch.ones(256, dtype=torch.float)
         features = features.unsqueeze(0)
 
 
-        caption = np.array([1, 2, 3, 4, 5, 6, 7, 8])
-        captions = torch.from_numpy(caption)
+        captions = torch.tensor([1, 2, 3, 4, 5, 6, 7 ,8 ])
         captions = captions.unsqueeze(0)
 
-        self.decoder(features, captions)
+        output = self.decoder(features, captions)
+        self.assertEqual(type(output), torch.Tensor, "Decoder output needs to be a PyTorch Tensor.")
 
+    def test_sample(self):
+        features = torch.rand(256, dtype=torch.float)
+        features = features.unsqueeze(0)
+        features = features.unsqueeze(1)
+
+        self.decoder.sample(features, max_len=20)

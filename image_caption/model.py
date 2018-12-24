@@ -52,9 +52,8 @@ class DecoderRNN(nn.Module):
         # This is needed to maintain the same output size as the input
         n_captions = list(embeds.size())[1]
         embeds = embeds.narrow(1, 0, n_captions - 1)
-
         #Concat image feature with captions
-        x = torch.cat((features.unsqueeze(1), embeds), 1)
+        x = torch.cat((features.unsqueeze(1), embeds), dim=1)
 
         x, self.hidden = self.lstm(x)
 
@@ -65,10 +64,13 @@ class DecoderRNN(nn.Module):
 
         x = self.fc(x)
 
-        # get the scores for the most likely tag for a word
-        tag_scores = F.log_softmax(x, dim=1)
+        # # get the scores for the most likely tag for a word
+        # tag_scores = F.log_softmax(x, dim=1)
+        #
+        # return tag_scores
 
-        return tag_scores
+        return x
+
 
     def init_hidden(self):
         ''' Initializes hidden state '''
@@ -79,4 +81,11 @@ class DecoderRNN(nn.Module):
 
     def sample(self, inputs, states=None, max_len=20):
         " accepts pre-processed image tensor (inputs) and returns predicted sentence (list of tensor ids of length max_len) "
-        pass
+        tensor_ids = []
+        for i in range(max_len):
+            x, state = self.lstm(inputs, states)
+            x = self.fc(x)
+            val, idx = x.max()
+            tensor_ids.append(idx)
+
+        return tensor_ids

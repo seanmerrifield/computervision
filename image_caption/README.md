@@ -23,12 +23,15 @@ In addition to the python packages installation instructions that are found at t
     gsutil -m rsync gs://images.cocodataset.org/val2014 val2014
     ```
 
-2. Unzip the downloaded files
-```sh
-curl -O http://images.cocodataset.org/zips/train2014.zip
-curl -O http://images.cocodataset.org/zips/val2014.zip
-curl -O http://images.cocodataset.org/zips/test2014.zip
-curl -O http://images.cocodataset.org/annotations/annotations_trainval2014.zip
-```
+4. Download the annotations file
+    ```sh
+    mkdir annotations
+    gsutil -m rsync gs://images.cocodataset.org/annotations annotations
+    ```
 
-3. And that's it!
+5. Install the COCO API
+    ```sh
+    pip install git+https://github.com/waleedka/cocoapi.git#egg=pycocotools&subdirectory=PythonAPI
+    ```
+
+5. And that's it!
