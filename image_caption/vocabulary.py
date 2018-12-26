@@ -8,7 +8,7 @@ class Vocabulary(object):
 
     def __init__(self,
         vocab_threshold,
-        vocab_file='./vocab.pkl',
+        vocab_file='./train/vocab.pkl',
         start_word="<start>",
         end_word="<end>",
         unk_word="<unk>",

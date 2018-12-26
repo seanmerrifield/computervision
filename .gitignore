@@ -8,4 +8,5 @@ __pycache__
 
 keypoint_detection/train
 
-image_caption/data
+image_caption/data/*
+image_caption/train/*
